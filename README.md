@@ -20,7 +20,7 @@ You can track the progress of the project on [waffle.io](https://waffle.io/rfeij
 This project is licensed under the terms of the **MIT** license.
 
 ## Tools
-[Snap-ci](https://snap-ci.com)
+[Circle](https://circleci.com)
 [Docker](https://www.docker.com/)
 [Serverless](http://serverless.com/)
 [Amazon Web Services](https://aws.amazon.com/)
