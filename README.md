@@ -21,3 +21,6 @@ This project is licensed under the terms of the **MIT** license.
 
 ## Tools
 [Snap-ci](https://snap-ci.com)
+[Docker](https://www.docker.com/)
+[Serverless](http://serverless.com/)
+[Amazon Web Services](https://aws.amazon.com/)
