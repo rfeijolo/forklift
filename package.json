@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Forklift is an application where someone could publish messages about topics that other users or applications can subscribe to. The goal of forklift is to show how a serverless application would look like in production. This means that security and quality are primary concerns.",
   "scripts": {
-    "test": "tape src/test/**/*.js",
-    "lint": "eslint src/**/*.js"
+    "test": "istanbul cover tape ./src/test/**/*.js",
+    "coverage-publish": "cat ./coverage/lcov.info | coveralls",
+    "lint": "eslint ./src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,10 @@
   },
   "homepage": "https://github.com/rfeijolo/forklift#readme",
   "devDependencies": {
+    "coveralls": "^2.11.15",
     "eslint": "^3.15.0",
     "faucet": "0.0.1",
+    "istanbul": "^0.4.5",
     "tape": "^4.6.3"
   }
 }
