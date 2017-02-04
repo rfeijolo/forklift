@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Forklift is an application where someone could publish messages about topics that other users or applications can subscribe to. The goal of forklift is to show how a serverless application would look like in production. This means that security and quality are primary concerns.",
   "scripts": {
-    "test": "echo \"No test specified\""
+    "test": "tape test/test.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/rfeijolo/forklift/issues"
   },
-  "homepage": "https://github.com/rfeijolo/forklift#readme"
+  "homepage": "https://github.com/rfeijolo/forklift#readme",
+  "devDependencies": {
+    "faucet": "0.0.1",
+    "tape": "^4.6.3"
+  }
 }
