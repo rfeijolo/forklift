@@ -1,7 +1,7 @@
 # Forklift: a serverless publish subscribe platform
 
 [![CircleCI](https://circleci.com/gh/rfeijolo/forklift.svg?style=svg)](https://circleci.com/gh/rfeijolo/forklift)
-[![Coverage Status](https://coveralls.io/repos/github/rfeijolo/forklift/badge.svg?branch=master)](https://coveralls.io/github/rfeijolo/forklift?branch=master)
+[![codecov](https://codecov.io/gh/rfeijolo/forklift/branch/master/graph/badge.svg)](https://codecov.io/gh/rfeijolo/forklift)
 
 Forklift is an application where someone could publish messages about topics that other users or applications can subscribe to.
 The goal of forklift is to help us understand how a serverless application would look like in production.
