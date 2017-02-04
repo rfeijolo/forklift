@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/rfeijolo/forklift.svg?style=svg)](https://circleci.com/gh/rfeijolo/forklift)
 
 Forklift is an application where someone could publish messages about topics that other users or applications can subscribe to.
-The goal of forklift is to show how a serverless application would look like in production.
+The goal of forklift is to help us understand how a serverless application would look like in production.
 This means that security and quality are primary concerns.
 
 You can track the progress of the project on [waffle.io](https://waffle.io/rfeijolo/forklift)
