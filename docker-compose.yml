@@ -1,6 +1,4 @@
 version: "2"
 services:
   forklift:
-      build:
-        context: .
-        dockerfile: docker/forklift/Dockerfile
+    image: "rfeijolo/forklift"
