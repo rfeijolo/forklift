@@ -1,13 +1,8 @@
 'use strict';
+const parser = require('./parse-topic');
+const database = require('./database');
+const createTopic = require('./createTopic');
 
-module.exports.hello = (event, context, callback) => {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-    }),
-  };
-
-  callback(null, response);
+module.exports.createTopic = function (event, context, callback) {
+  createTopic(parser(event), database, callback);
 };
