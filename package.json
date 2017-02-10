@@ -25,5 +25,9 @@
     "faucet": "0.0.1",
     "istanbul": "^0.4.5",
     "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.11.0",
+    "uuid": "^3.0.1"
   }
 }

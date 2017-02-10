@@ -4,7 +4,43 @@ frameworkVersion: "=1.6.1"
 provider:
   name: aws
   runtime: nodejs4.3
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          - dynamodb:DeleteItem
+        Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${env:DYNAMODB_TABLE}"
 
 functions:
   createTopic:
     handler: src/handler.createTopic
+    events:
+      - http:
+          path: topics
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    TopicsTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+          KeySchema:
+            -
+              AttributeName: id
+              KeyType: HASH
+          ProvisionedThoughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+          TableName: ${env:DYNAMODB_TABLE}
