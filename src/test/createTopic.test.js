@@ -1,6 +1,6 @@
 const test = require('tape');
 const createTopic = require('../createTopic');
-test('A passing test', (assert) => {
+test('should return OK (status code 200)', (assert) => {
   createTopic(null, null, isResponseOk);
 
   function isResponseOk (error, response) {
