@@ -38,3 +38,4 @@ jspm_packages
 
 #Local environment variables
 .env
+.serverless/

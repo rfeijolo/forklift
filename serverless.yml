@@ -4,18 +4,17 @@ frameworkVersion: "=1.6.1"
 provider:
   name: aws
   runtime: nodejs4.3
-  environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-          - dynamodb:Scan
-          - dynamodb:GetItem
-          - dynamodb:PutItem
-          - dynamodb:UpdateItem
-          - dynamodb:DeleteItem
-        Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${env:DYNAMODB_TABLE}"
+  profile: ${opt:profile}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/topics"
 
 functions:
   createTopic:
@@ -32,15 +31,13 @@ resources:
       Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
+        TableName: "topics"
         AttributeDefinitions:
-          -
-            AttributeName: id
+          - AttributeName: id
             AttributeType: S
-          KeySchema:
-            -
-              AttributeName: id
-              KeyType: HASH
-          ProvisionedThoughput:
-            ReadCapacityUnits: 1
-            WriteCapacityUnits: 1
-          TableName: ${env:DYNAMODB_TABLE}
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
