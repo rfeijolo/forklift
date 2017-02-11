@@ -16,6 +16,9 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/topics"
 
+plugins:
+  - serverless-offline
+
 functions:
   createTopic:
     handler: src/handler.createTopic
