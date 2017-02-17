@@ -1,18 +1,17 @@
 module.exports = function(topic, database, done) {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!'
-    }),
-  };
 
+  database.createTopic(topic, handleTopicCreation);
 
-  database.createTopic(topic, (error) => {
-    if(error) {
-      done(error);
-      return;
-    }
+  function handleTopicCreation(error, createdTopic) {
+    if(error) done(error);
+    else done(null, createSuccessResponse(createdTopic));
+  }
 
-    done(null, response);
-  });
+  function createSuccessResponse(item) {
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify(item),
+    };
+    return response;
+  }
 };

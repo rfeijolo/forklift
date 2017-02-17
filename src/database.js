@@ -15,5 +15,8 @@ module.exports.createTopic = (topic, done) => {
     Item: item
   };
 
-  dynamoDb.put(params, done);
+  dynamoDb.put(params, (error) => {
+    if(error) done(error);
+    else done(null, item);
+  });
 };
