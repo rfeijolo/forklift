@@ -5,5 +5,14 @@ module.exports = function(topic, database, done) {
       message: 'Go Serverless v1.0! Your function executed successfully!'
     }),
   };
-  done(null, response);
+
+
+  database.createTopic(topic, (error) => {
+    if(error) {
+      done(error);
+      return;
+    }
+
+    done(null, response);
+  });
 };
