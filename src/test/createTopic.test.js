@@ -1,28 +1,43 @@
 const test = require('tape');
 const createTopic = require('../createTopic');
-const databaseMock = {
-  createTopic: noop
-};
+const callbacks = require('./callbacks');
+const fixtures = require('./fixtures');
 
-function noop(item, done) {
-  done(null, item);
-}
-test('should return OK (status code 200)', (assert) => {
-  const anyTopic = {
-    name: 'anyName',
-    tags: [
-      'Pokémon', 'Chavo del ocho'
-    ]
+test('should return Ok', (assert) => {
+  const databaseMock = {
+    createTopic: callbacks.noop
   };
+  const anyTopic = fixtures.createAnyTopic();
+
   createTopic(anyTopic, databaseMock, isResponseOk);
 
   function isResponseOk (error, response) {
     const okStatusCode = 200;
     const serializedBody = JSON.stringify(anyTopic);
 
-    assert.equal(null, error);
-    assert.equal(okStatusCode, response.statusCode);
-    assert.equal(serializedBody, response.body);
+    assert.equal(error, null);
+    assert.equal(response.httpStatus, okStatusCode);
+    assert.equal(response.body, serializedBody);
     assert.end();
   }
 });
+
+test('should return Internal Server Error', (assert => {
+  const databaseMock  = {
+    createTopic: callbacks.throwError
+  };
+  const anyTopic = fixtures.createAnyTopic();
+
+  createTopic(anyTopic, databaseMock, isResponseInternalServerError);
+
+  function isResponseInternalServerError (serializedError, response) {
+    const internalServerErrorStatusCode = 500;
+
+    const error = JSON.parse(serializedError);
+
+    assert.equal(error.httpStatus, internalServerErrorStatusCode);
+    assert.equal(error.message, '{}');
+    assert.equal(response, undefined);
+    assert.end();
+  }
+}));
