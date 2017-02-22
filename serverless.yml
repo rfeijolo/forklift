@@ -17,12 +17,7 @@ provider:
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/topics"
 
 plugins:
-  - serverless-babel-plugin
   - serverless-offline
-
-custom:
-  babelPresets:
-    - latest
 
 functions:
   createTopic:

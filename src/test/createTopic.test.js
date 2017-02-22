@@ -16,7 +16,7 @@ test('should return Ok', (assert) => {
     const serializedBody = JSON.stringify(anyTopic);
 
     assert.equal(error, null);
-    assert.equal(response.httpStatus, okStatusCode);
+    assert.equal(response.statusCode, okStatusCode);
     assert.equal(response.body, serializedBody);
     assert.end();
   }
@@ -35,7 +35,7 @@ test('should return Internal Server Error', (assert => {
 
     const error = JSON.parse(serializedError);
 
-    assert.equal(error.httpStatus, internalServerErrorStatusCode);
+    assert.equal(error.statusCode, internalServerErrorStatusCode);
     assert.equal(error.message, '{}');
     assert.equal(response, undefined);
     assert.end();

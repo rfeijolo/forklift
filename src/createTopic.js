@@ -9,18 +9,18 @@ module.exports = function(topic, database, done) {
 
   function createSuccessResponse(item) {
     const response = {
-      httpStatus: 200,
+      statusCode: 200,
       body: JSON.stringify(item),
     };
     return response;
   }
 
-  function createGenericErrorResponse() {
-    const error = {
-      errorType: 'InternalServerError',
-      httpStatus: 500,
+  function createGenericErrorResponse(error) {
+    console.log(error);
+    const errorResponse = {
+      statusCode: 500,
       message: JSON.stringify({})
     };
-    return JSON.stringify(error);
+    return JSON.stringify(errorResponse);
   }
 };
