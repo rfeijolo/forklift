@@ -15,11 +15,10 @@ module.exports = function(topic, database, done) {
     return response;
   }
 
-  function createGenericErrorResponse(error) {
-    console.log(error);
+  function createGenericErrorResponse() {
     const errorResponse = {
       statusCode: 500,
-      message: JSON.stringify({})
+      message: 'An unexpected error has ocurred.'
     };
     return JSON.stringify(errorResponse);
   }

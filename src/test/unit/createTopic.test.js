@@ -1,7 +1,7 @@
 const test = require('tape');
-const createTopic = require('../createTopic');
+const createTopic = require('../../createTopic');
 const callbacks = require('./callbacks');
-const fixtures = require('./fixtures');
+const fixtures = require('../fixtures');
 
 test('should return Ok', (assert) => {
   const databaseMock = {
@@ -36,7 +36,7 @@ test('should return Internal Server Error', (assert => {
     const error = JSON.parse(serializedError);
 
     assert.equal(error.statusCode, internalServerErrorStatusCode);
-    assert.equal(error.message, '{}');
+    assert.equal(error.message, 'An unexpected error has ocurred.');
     assert.equal(response, undefined);
     assert.end();
   }

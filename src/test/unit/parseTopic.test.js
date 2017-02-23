@@ -1,5 +1,5 @@
 const test = require('tape');
-const parseTopic = require('../parse-topic');
+const parseTopic = require('../../parse-topic');
 
 test('should parse an apigateway event', (assert) => {
 
