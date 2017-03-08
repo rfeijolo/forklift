@@ -1,7 +1,7 @@
 container.build:
 	docker build -f Dockerfile -t rfeijolo/forklift .
 app.test: container.build
-	@docker-compose run forklift npm test
+	@docker-compose run -e FORKLIFT_URL=${FORKLIFT_URL} forklift npm test
 
 app.test.coverage: app.test
 	@docker-compose run -e CODECOV_TOKEN=${CODECOV_TOKEN} forklift npm run coverage-publish
