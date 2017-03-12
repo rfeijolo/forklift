@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "integration-test": "tape ./src/test/integration/**/*.js",
-    "unit-test": "istanbul cover tape ./src/test/unit/**/*.js --report lcovonly -- -R spec",
-    "test": "npm run unit-test && npm run integration-test ",
+    "test": "istanbul cover tape ./src/test/unit/**/*.js --report lcovonly -- -R spec",
     "coverage-publish": "codecov",
     "lint": "eslint ./src/**/*.js"
   },
