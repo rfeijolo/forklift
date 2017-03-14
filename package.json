@@ -6,6 +6,7 @@
   "scripts": {
     "integration-test": "tape ./src/test/integration/**/*.js",
     "test": "istanbul cover tape ./src/test/unit/**/*.js --report lcovonly -- -R spec",
+    "deploy": "serverless deploy",
     "coverage-publish": "codecov",
     "lint": "eslint ./src/**/*.js"
   },
