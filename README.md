@@ -1,6 +1,6 @@
 # Forklift: a serverless publish subscribe platform
 
-[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=rfeijolo&repoName=forklift&branch=master&pipelineName=forklift&accountName=rfeijolo&type=cf-1)]( https://g.codefresh.io/repositories/rfeijolo/forklift/builds?filter=trigger:build;branch:master;service:5899115294ba0701007230cd~forklift)
+[![CircleCI](https://circleci.com/gh/rfeijolo/forklift.svg?style=svg)](https://circleci.com/gh/rfeijolo/forklift)
 [![codecov](https://codecov.io/gh/rfeijolo/forklift/branch/master/graph/badge.svg)](https://codecov.io/gh/rfeijolo/forklift)
 
 Forklift is an application where someone could publish messages about topics that other users or applications can subscribe to.
