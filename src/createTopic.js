@@ -1,4 +1,6 @@
-module.exports = function(topic, database, done) {
+module.exports = createTopic;
+
+function createTopic(topic, database, done) {
 
   database.createTopic(topic, handleTopicCreation);
 
@@ -22,4 +24,4 @@ module.exports = function(topic, database, done) {
     };
     return JSON.stringify(errorResponse);
   }
-};
+}
