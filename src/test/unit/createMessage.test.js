@@ -1,19 +1,19 @@
 const test = require('tape');
-const createTopic = require('../../createTopic');
+const createMessage = require('../../createMessage');
 const callbacks = require('./callbacks');
 const fixtures = require('../fixtures');
 
-test('createTopic should return Ok', (assert) => {
+test('createMessage should return Ok', (assert) => {
   const databaseMock = {
-    createTopic: callbacks.noop
+    createMessage: callbacks.noop
   };
-  const anyTopic = fixtures.createAnyTopic();
+  const anyMessage = fixtures.createAnyMessage();
 
-  createTopic(anyTopic, databaseMock, isResponseOk);
+  createMessage(anyMessage, databaseMock, isResponseOk);
 
   function isResponseOk(error, response){
     const okStatusCode = 200;
-    const serializedBody = JSON.stringify(anyTopic);
+    const serializedBody = JSON.stringify(anyMessage);
 
     assert.equal(error, null);
     assert.equal(response.statusCode, okStatusCode);
@@ -22,13 +22,14 @@ test('createTopic should return Ok', (assert) => {
   }
 });
 
-test('createTopic should return Internal Server Error', (assert => {
-  const databaseMock  = {
-    createTopic: callbacks.throwError
-  };
-  const anyTopic = fixtures.createAnyTopic();
 
-  createTopic(anyTopic, databaseMock, isResponseInternalServerError);
+test('createMessage should return Internal Server Error', (assert => {
+  const databaseMock  = {
+    createMessage: callbacks.throwError
+  };
+  const anyMessage = fixtures.createAnyMessage();
+
+  createMessage(anyMessage, databaseMock, isResponseInternalServerError);
 
   function isResponseInternalServerError(serializedError, response) {
     const internalServerErrorStatusCode = 500;
