@@ -1,7 +1,7 @@
 const test = require('tape');
-const createTopic = require('../../createTopic');
-const callbacks = require('./callbacks');
-const fixtures = require('../fixtures');
+const createTopic = require('../../../topic/createTopic');
+const callbacks = require('../callbacks');
+const fixtures = require('../../fixtures');
 
 test('createTopic should return Ok', (assert) => {
   const databaseMock = {

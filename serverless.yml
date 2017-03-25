@@ -29,7 +29,7 @@ functions:
           method: post
           cors: true
   createTopic:
-    handler: src/handler.createTopic
+    handler: src/topic/handler.createTopic
     events:
       - http:
           path: topics

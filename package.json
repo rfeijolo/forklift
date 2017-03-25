@@ -4,8 +4,8 @@
   "description": "Forklift is an application where someone could publish messages about topics that other users or applications can subscribe to. The goal of forklift is to show how a serverless application would look like in production. This means that security and quality are primary concerns.",
   "private": true,
   "scripts": {
-    "integration-test": "tape ./src/test/integration/**/*.js",
-    "test": "istanbul cover tape ./src/test/unit/**/*.js --report lcovonly -- -R spec",
+    "integration-test": "tape \"./src/test/integration/**/*.js\"",
+    "test": "istanbul cover tape \"./src/test/unit/**/*.test.js\" --report lcovonly -- -R spec",
     "deploy": "serverless deploy",
     "coverage-publish": "codecov",
     "lint": "eslint ./src/**/*.js"
