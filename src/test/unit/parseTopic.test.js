@@ -11,7 +11,7 @@ test('should parse an apigateway event', (assert) => {
     tags: ['Nintendo', '3DS']
   };
   const result = parseTopic(event);
-  assert.deepEqual(expected, result);
+  assert.deepEqual(result, expected);
   assert.end();
 });
 
@@ -25,6 +25,6 @@ test('should filter over posted properties', (assert) => {
     tags: ['Nintendo', '3DS']
   };
   const result = parseTopic(event);
-  assert.deepEqual(expected, result);
+  assert.deepEqual(result, expected);
   assert.end();
 });

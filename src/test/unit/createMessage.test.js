@@ -22,7 +22,6 @@ test('createMessage should return Ok', (assert) => {
   }
 });
 
-
 test('createMessage should return Internal Server Error', (assert => {
   const databaseMock  = {
     createMessage: callbacks.throwError
