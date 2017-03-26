@@ -1,7 +1,7 @@
+const callbacks = require('../callbacks');
+const createMessage = require('../../../message/createMessage');
+const fixtures = require('../../fixtures');
 const test = require('tape');
-const createMessage = require('../../createMessage');
-const callbacks = require('./callbacks');
-const fixtures = require('../fixtures');
 
 test('createMessage should return Ok', (assert) => {
   const databaseMock = {
