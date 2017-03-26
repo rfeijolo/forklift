@@ -1,5 +1,5 @@
 const test = require('tape');
-const createTopic = require('../../../topic/createTopic');
+const createTopic = require('../../../topic/create-topic');
 const callbacks = require('../callbacks');
 const fixtures = require('../../fixtures');
 

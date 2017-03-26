@@ -22,7 +22,7 @@ provider:
 
 functions:
   createMessage:
-    handler: src/handler.createMessage
+    handler: src/message/handler.createMessage
     events:
       - http:
           path: messages

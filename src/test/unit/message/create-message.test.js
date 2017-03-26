@@ -1,5 +1,5 @@
 const callbacks = require('../callbacks');
-const createMessage = require('../../../message/createMessage');
+const createMessage = require('../../../message/create-message');
 const fixtures = require('../../fixtures');
 const test = require('tape');
 
