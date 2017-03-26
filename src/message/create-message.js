@@ -24,3 +24,4 @@ function createMessage(message, database, done) {
     return JSON.stringify(errorResponse);
   }
 }
+

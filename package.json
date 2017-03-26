@@ -28,6 +28,7 @@
     "faucet": "0.0.1",
     "istanbul": "^0.4.5",
     "serverless": "^1.8.0",
+    "serverless-offline": "^3.13.0",
     "supertest": "^3.0.0",
     "tape": "^4.6.3"
   },

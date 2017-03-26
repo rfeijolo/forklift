@@ -25,9 +25,13 @@ functions:
     handler: src/message/handler.createMessage
     events:
       - http:
-          path: messages
+          path: topics/{topicId}/messages
           method: post
           cors: true
+          request:
+            parameters:
+              paths:
+                topicId: true
   createTopic:
     handler: src/topic/handler.createTopic
     events:
@@ -72,3 +76,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+
+plugins:
+  - serverless-offline

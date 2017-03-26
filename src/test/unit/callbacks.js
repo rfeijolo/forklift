@@ -10,3 +10,4 @@ function noop (parameter, done) {
 function throwError (parameter, done) {
   done(new Error('Something bad happened'));
 }
+

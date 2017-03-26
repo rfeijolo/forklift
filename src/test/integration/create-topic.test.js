@@ -16,3 +16,4 @@ test('should return 200 ok when topic is valid', (assert) => {
       assert.end();
     });
 });
+
