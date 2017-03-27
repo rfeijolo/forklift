@@ -1,13 +1,13 @@
 const callbacks = require('../callbacks');
 const createMessage = require('../../../message/create-message');
-const fixtures = require('../../fixtures');
+const MessageFixture = require('../../message-builder');
 const test = require('tape');
 
 test('createMessage should return Ok', (assert) => {
   const databaseMock = {
     createMessage: callbacks.noop
   };
-  const anyMessage = fixtures.createAnyMessage();
+  const anyMessage = new MessageFixture().build();
 
   createMessage(anyMessage, databaseMock, isResponseOk);
 
@@ -26,7 +26,7 @@ test('createMessage should return Internal Server Error', (assert => {
   const databaseMock  = {
     createMessage: callbacks.throwError
   };
-  const anyMessage = fixtures.createAnyMessage();
+  const anyMessage = new MessageFixture().build();
 
   createMessage(anyMessage, databaseMock, isResponseInternalServerError);
 

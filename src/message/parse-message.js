@@ -1,10 +1,11 @@
 'use strict';
 
 module.exports = function (event) {
-  const parsedMessage = JSON.parse(event.body);
+  const parsedBody = JSON.parse(event.body);
   return {
-    title: parsedMessage.title,
-    text: parsedMessage.text
+    title: parsedBody.title,
+    text: parsedBody.text,
+    topicId: event.pathParameters.topicId
   };
 };
 

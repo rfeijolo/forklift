@@ -28,10 +28,6 @@ functions:
           path: topics/{topicId}/messages
           method: post
           cors: true
-          request:
-            parameters:
-              paths:
-                topicId: true
   createTopic:
     handler: src/topic/handler.createTopic
     events:
@@ -39,10 +35,6 @@ functions:
           path: topics
           method: post
           cors: true
-  notify:
-    handler: src/handler.notify
-    events:
-      - stream: arn:aws:dynamodb:us-east-1:651189268295:table/messages/stream/2017-03-25T19:45:51.075
 
 resources:
   Resources:

@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = function (event) {
-  const parsedTopic = JSON.parse(event.body);
+  const parsedBody = JSON.parse(event.body);
   return {
-    name: parsedTopic.name,
-    tags: parsedTopic.tags
+    name: parsedBody.name,
+    tags: parsedBody.tags
   };
 };
 

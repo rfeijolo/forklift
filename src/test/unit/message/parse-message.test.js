@@ -2,12 +2,11 @@ const test = require('tape');
 const parseMessage = require('../../../message/parse-message');
 
 test('should parse an apigateway event', (assert) => {
-  const event = {
-    body: '{"title":"Pokémon","text":"A wild test appeared!"}'
-  };
+  const event = createMessageEvent();
   const expected = {
     title: 'Pokémon',
-    text: 'A wild test appeared!'
+    text: 'A wild test appeared!',
+    topicId: 'anyTopicId'
   };
 
   const result = parseMessage(event);
@@ -17,12 +16,11 @@ test('should parse an apigateway event', (assert) => {
 });
 
 test('should filter over posted properties', (assert) => {
-  const event = {
-    body: '{"title":"Pokémon","text":"A wild test appeared!","overpost":true}'
-  };
+  const event = createMessageEvent();
   const expected = {
     title: 'Pokémon',
-    text: 'A wild test appeared!'
+    text: 'A wild test appeared!',
+    topicId: 'anyTopicId'
   };
 
   const result = parseMessage(event);
@@ -30,4 +28,13 @@ test('should filter over posted properties', (assert) => {
   assert.deepEqual(result, expected);
   assert.end();
 });
+
+function createMessageEvent() {
+  return {
+    body: '{"title":"Pokémon","text":"A wild test appeared!"}',
+    pathParameters: {
+      topicId: 'anyTopicId'
+    }
+  };
+}
 
