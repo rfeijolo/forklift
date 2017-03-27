@@ -9,11 +9,11 @@ const MESSAGES_TABLE = 'messages';
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports = {
-  createTopic: create(TOPICS_TABLE),
-  createMessage: create(MESSAGES_TABLE)
+  createTopic: createItem(TOPICS_TABLE),
+  createMessage: createItem(MESSAGES_TABLE)
 };
 
-function create(table) {
+function createItem(table) {
   return function(item, done) {
     const timestamp = new Date().getTime();
     const databaseItem = Object.assign({}, item, {
