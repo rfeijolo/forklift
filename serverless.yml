@@ -35,6 +35,8 @@ functions:
           path: topics
           method: post
           cors: true
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:651189268295:userpool/us-east-1_wLNFEdP92
 
 resources:
   Resources:
