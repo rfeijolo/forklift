@@ -24,6 +24,8 @@ function createTopic(topic) {
 function validateTopicCreation(topic, assert) {
   return (response) => {
     const createdTopic = response.body;
+    const okStatusCode = 200;
+    assert.equal(okStatusCode, response.status);
     assert.equal(createdTopic.name, topic.name);
     assert.deepEqual(createdTopic.tags, topic.tags);
     return createdTopic;
@@ -46,6 +48,8 @@ function validateMessageCreation(messageBuilder, assert) {
   return (response) => {
     const createdMessage = response.body;
     const expectedMessage = messageBuilder.build();
+    const okStatusCode = 200;
+    assert.equal(okStatusCode, response.status);
     assert.equal(createdMessage.title, expectedMessage.title);
     assert.equal(createdMessage.text, expectedMessage.text);
     assert.equal(createdMessage.topicId, expectedMessage.topicId);
