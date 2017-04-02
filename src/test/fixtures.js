@@ -7,7 +7,8 @@ function createAnyTopic() {
     name: 'anyName',
     tags: [
       'Pokémon', 'Chavo del ocho'
-    ]
+    ],
+    ownerId: 'anyOwner'
   };
 }
 
