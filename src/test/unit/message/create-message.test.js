@@ -12,13 +12,13 @@ test('createMessage should return Ok', (assert) => {
   createMessage(anyMessage, isResponseOk);
 
   function isResponseOk(error, response){
+    createMessageStub.restore();
     const okStatusCode = 200;
     const serializedBody = JSON.stringify(anyMessage);
 
     assert.equal(error, null);
     assert.equal(response.statusCode, okStatusCode);
     assert.equal(response.body, serializedBody);
-    createMessageStub.restore();
     assert.end();
   }
 });
@@ -32,13 +32,13 @@ test('createMessage should return Internal Server Error', (assert => {
   createMessage(anyMessage, isResponseInternalServerError);
 
   function isResponseInternalServerError(serializedError, response) {
+    createMessageStub.restore();
     const internalServerErrorStatusCode = 500;
     const error = JSON.parse(serializedError);
 
     assert.equal(error.statusCode, internalServerErrorStatusCode);
     assert.equal(error.message, expectedErrorMessage);
     assert.equal(response, undefined);
-    createMessageStub.restore();
     assert.end();
   }
 }));

@@ -1,4 +1,6 @@
 const database = require('../database');
+const validator = require('./validator');
+
 module.exports = createTopic;
 
 const responseFactory = {
@@ -26,12 +28,17 @@ function genericError() {
 function badRequest(errors) {
   const badRequestResponse = {
     statusCode: 400,
-    body: JSON.stringify(errors.join('\n'))
+    body: [].concat(errors)
   };
   return badRequestResponse;
 }
 
 function createTopic(topic, done) {
+  const validationResult = validator.isValid(topic);
+  if(!validationResult.isValid) {
+    done(responseFactory.badRequest(validationResult.errors));
+    return;
+  }
   database.createTopic(topic, handleTopicCreation);
 
   function handleTopicCreation(error, createdTopic) {
