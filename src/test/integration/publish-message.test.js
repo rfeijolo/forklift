@@ -1,24 +1,37 @@
 const MessageFixture = require('../message-builder');
-const applicationUrl = require('../settings').applicationUrl;
+const APPLICATION_URL = require('../settings').applicationUrl;
 const fixtures = require('../fixtures');
 const request = require('supertest');
 const test = require('tape');
+const authentication = require('./authentication');
 
 test('should test the publication workflow', (assert) => {
-  const validTopic = fixtures.createAnyTopic();
-  const messageBuilder = new MessageFixture();
-
-  return createTopic(validTopic)
-    .then(validateTopicCreation(validTopic, assert))
-    .then(createMessage(messageBuilder))
-    .then(validateMessageCreation(messageBuilder, assert))
+  return authentication.signIn()
+    .then(createTopicAndMessage(assert))
     .then(assert.end);
 });
 
-function createTopic(topic) {
-  return request(applicationUrl)
-    .post('/topics')
-    .send(topic);
+function createTopicAndMessage(assert) {
+  return (credentials) => {
+    const topic = fixtures.createAnyTopic();
+    const messageBuilder = new MessageFixture();
+
+    return createTopic(topic, credentials)
+      .then(validateTopicCreation(topic, assert))
+      .then(createMessage(messageBuilder, credentials))
+      .then(validateMessageCreation(messageBuilder, assert));
+  };
+}
+
+function createAuthenticatedPostRequest(path, body, credentials) {
+  return request(APPLICATION_URL)
+    .post(path)
+    .set('Authorization', credentials.idToken)
+    .send(body);
+}
+
+function createTopic(topic, credentials) {
+  return createAuthenticatedPostRequest('/topics', topic, credentials);
 }
 
 function validateTopicCreation(topic, assert) {
@@ -32,15 +45,16 @@ function validateTopicCreation(topic, assert) {
   };
 }
 
-function createMessage(messageBuilder) {
+function createMessage(messageBuilder, credentials) {
   return (topic) => {
-    return request(applicationUrl)
-      .post(`/topics/${topic.id}/messages`)
-      .send(messageBuilder.build())
-      .expect((response) => {
-        messageBuilder.withTopicId(topic.id);
-        return response;
-      });
+    return createAuthenticatedPostRequest(
+      `/topics/${topic.id}/messages`,
+       messageBuilder.build(),
+      credentials
+    ).expect((response) => {
+      messageBuilder.withTopicId(topic.id);
+      return response;
+    });
   };
 }
 

@@ -1,18 +1,14 @@
 #!/usr/bin/env node
 
-var AWS = require('aws-sdk');
-
-var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ region: 'us-east-1' });
-
-var params = {
-  'UserPoolId': process.argv[2],
+const settings = require('../src/settings');
+const AWS = require('aws-sdk');
+const cognito = new AWS.CognitoIdentityServiceProvider({ region: 'us-east-1' });
+const params = {
+  'UserPoolId': settings.userPoolId
 };
 
-cognitoidentityserviceprovider.deleteUserPool(params, function (err) {
+cognito.deleteUserPool(params, function (err) {
   if (err) {
-    console.error(err, err.stack);
-    return;
+    throw err;
   }
-
-  console.log('Deleted pool');
 });

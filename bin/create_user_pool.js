@@ -1,28 +1,26 @@
 #!/usr/bin/env node
 
-var AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
+const cognito = new AWS.CognitoIdentityServiceProvider({ region: 'us-east-1' });
+const iam = new AWS.IAM();
 
-var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({ region: 'us-east-1' });
-var iam = new AWS.IAM();
-
-var params = {
+const params = {
   'AliasAttributes': ['email'],
-  'PoolName': 'serveless_test',
+  'PoolName': 'forklift',
 };
 
-cognitoidentityserviceprovider.createUserPool(params, function (err, poolData) {
+cognito.createUserPool(params, function (err, poolData) {
   if (err) {
-    console.error(err, err.stack);
-    return;
+    throw err;
   }
 
   iam.getUser({}, function (err, iamData) {
     if (err) {
-      console.error(err, err.stack);
-      return;
+      throw err;
     }
 
     var id = iamData.User.Arn.split(':')[4];
     console.log('User Pool ARN is arn:aws:cognito-idp:us-east-1:' + id + ':userpool/' + poolData.UserPool.Id);
+    console.log(`export AWS_USER_POOL_ID='${poolData.UserPool.Id}'`);
   });
 });
