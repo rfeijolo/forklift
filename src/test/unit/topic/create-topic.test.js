@@ -1,15 +1,15 @@
 const test = require('tape');
-const createTopic = require('../../../topic/create-topic');
-const callbacks = require('../callbacks');
 const fixtures = require('../../fixtures');
+const sinon = require('sinon');
+const database = require('../../../database');
 
+const createTopic = require('../../../topic/create-topic');
 test('createTopic should return Ok', (assert) => {
-  const databaseMock = {
-    createTopic: callbacks.noop
-  };
   const anyTopic = fixtures.createAnyTopic();
+  const createTopicStub = sinon.stub(database, 'createTopic');
+  createTopicStub.yields(null, anyTopic);
 
-  createTopic(anyTopic, databaseMock, isResponseOk);
+  createTopic(anyTopic, isResponseOk);
 
   function isResponseOk(error, response){
     const okStatusCode = 200;
@@ -18,17 +18,18 @@ test('createTopic should return Ok', (assert) => {
     assert.equal(error, null);
     assert.equal(response.statusCode, okStatusCode);
     assert.equal(response.body, serializedBody);
+    createTopicStub.restore();
     assert.end();
   }
 });
 
 test('createTopic should return Internal Server Error', (assert => {
-  const databaseMock  = {
-    createTopic: callbacks.throwError
-  };
   const anyTopic = fixtures.createAnyTopic();
+  const expectedErrorMessage = 'An unexpected error has ocurred.';
+  const createTopicStub = sinon.stub(database, 'createTopic');
+  createTopicStub.yields(new Error(expectedErrorMessage));
 
-  createTopic(anyTopic, databaseMock, isResponseInternalServerError);
+  createTopic(anyTopic, isResponseInternalServerError);
 
   function isResponseInternalServerError(serializedError, response) {
     const internalServerErrorStatusCode = 500;
@@ -36,8 +37,9 @@ test('createTopic should return Internal Server Error', (assert => {
     const error = JSON.parse(serializedError);
 
     assert.equal(error.statusCode, internalServerErrorStatusCode);
-    assert.equal(error.message, 'An unexpected error has ocurred.');
+    assert.equal(error.message, expectedErrorMessage);
     assert.equal(response, undefined);
+    createTopicStub.restore();
     assert.end();
   }
 }));

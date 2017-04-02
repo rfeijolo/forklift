@@ -1,6 +1,8 @@
+const database = require('../database');
+
 module.exports = createMessage;
 
-function createMessage(message, database, done) {
+function createMessage(message, done) {
   database.createMessage(message, handleMessageCreation);
 
   function handleMessageCreation(error, createdMessage) {

@@ -1,15 +1,15 @@
-const callbacks = require('../callbacks');
 const createMessage = require('../../../message/create-message');
 const MessageFixture = require('../../message-builder');
 const test = require('tape');
+const database = require('../../../database');
+const sinon = require('sinon');
 
 test('createMessage should return Ok', (assert) => {
-  const databaseMock = {
-    createMessage: callbacks.noop
-  };
   const anyMessage = new MessageFixture().build();
+  const createMessageStub = sinon.stub(database, 'createMessage');
+  createMessageStub.yields(null, anyMessage);
 
-  createMessage(anyMessage, databaseMock, isResponseOk);
+  createMessage(anyMessage, isResponseOk);
 
   function isResponseOk(error, response){
     const okStatusCode = 200;
@@ -18,26 +18,27 @@ test('createMessage should return Ok', (assert) => {
     assert.equal(error, null);
     assert.equal(response.statusCode, okStatusCode);
     assert.equal(response.body, serializedBody);
+    createMessageStub.restore();
     assert.end();
   }
 });
 
 test('createMessage should return Internal Server Error', (assert => {
-  const databaseMock  = {
-    createMessage: callbacks.throwError
-  };
   const anyMessage = new MessageFixture().build();
+  const expectedErrorMessage = 'An unexpected error has ocurred.';
+  const createMessageStub = sinon.stub(database, 'createMessage');
+  createMessageStub.yields(new Error(expectedErrorMessage));
 
-  createMessage(anyMessage, databaseMock, isResponseInternalServerError);
+  createMessage(anyMessage, isResponseInternalServerError);
 
   function isResponseInternalServerError(serializedError, response) {
     const internalServerErrorStatusCode = 500;
-
     const error = JSON.parse(serializedError);
 
     assert.equal(error.statusCode, internalServerErrorStatusCode);
-    assert.equal(error.message, 'An unexpected error has ocurred.');
+    assert.equal(error.message, expectedErrorMessage);
     assert.equal(response, undefined);
+    createMessageStub.restore();
     assert.end();
   }
 }));
