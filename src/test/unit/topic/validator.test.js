@@ -7,7 +7,36 @@ test('should return true when topic is valid', (assert) => {
 
   const result = validator.isValid(anyTopic);
 
-  assert.equal(result, true);
+  assert.equal(result.isValid, true);
+  assert.end();
+});
+
+test('should return false when topic has no name', (assert) => {
+  const topicWithoutName = fixtures.createAnyTopic();
+  delete topicWithoutName.name;
+
+  const result = validator.isValid(topicWithoutName);
+
+  assert.equal(result.isValid, false);
+  assert.end();
+});
+
+test('should return false when topic has no tags', (assert) => {
+  const topicWithoutTags = fixtures.createAnyTopic();
+  delete topicWithoutTags.tags;
+
+  const result = validator.isValid(topicWithoutTags);
+
+  assert.equal(result.isValid, false);
+  assert.end();
+});
+test('should return false when topic has no name', (assert) => {
+  const topicWithoutOwnerId = fixtures.createAnyTopic();
+  delete topicWithoutOwnerId.ownerId;
+
+  const result = validator.isValid(topicWithoutOwnerId);
+
+  assert.equal(result.isValid, false);
   assert.end();
 });
 
@@ -17,7 +46,7 @@ test('should return false when topic has extra properties', (assert) => {
 
   const result = validator.isValid(topicWithExtraProperties);
 
-  assert.equal(result, false);
+  assert.equal(result.isValid, false);
   assert.end();
 });
 
