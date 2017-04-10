@@ -36,7 +36,6 @@ function createTopic(topic, credentials) {
 
 function validateTopicCreation(topic, assert) {
   return (response) => {
-    console.log(response);
     const createdTopic = response.body;
     const okStatusCode = 200;
     assert.equal(response.status, okStatusCode);

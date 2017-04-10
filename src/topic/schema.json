@@ -1,0 +1,9 @@
+{
+  "required": ["name", "tags", "ownerId"],
+  "additionalProperties": false,
+  "properties": {
+    "name": { "type": "string" },
+    "tags": { "type": "array" },
+    "ownerId": { "type": "string" }
+  }
+}
