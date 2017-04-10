@@ -36,9 +36,10 @@ function createTopic(topic, credentials) {
 
 function validateTopicCreation(topic, assert) {
   return (response) => {
+    console.log(response);
     const createdTopic = response.body;
     const okStatusCode = 200;
-    assert.equal(okStatusCode, response.status);
+    assert.equal(response.status, okStatusCode);
     assert.equal(createdTopic.name, topic.name);
     assert.deepEqual(createdTopic.tags, topic.tags);
     return createdTopic;
@@ -63,7 +64,7 @@ function validateMessageCreation(messageBuilder, assert) {
     const createdMessage = response.body;
     const expectedMessage = messageBuilder.build();
     const okStatusCode = 200;
-    assert.equal(okStatusCode, response.status);
+    assert.equal(response.status, okStatusCode);
     assert.equal(createdMessage.title, expectedMessage.title);
     assert.equal(createdMessage.text, expectedMessage.text);
     assert.equal(createdMessage.topicId, expectedMessage.topicId);

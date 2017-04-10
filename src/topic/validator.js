@@ -17,7 +17,7 @@ function isValid(topic) {
   };
   return {
     isValid: ajv.validate(schema, topic),
-    errors: ajv.errors
+    errors: ajv.errors ? ajv.errors.map((error) => error.message) : undefined
   };
 }
 

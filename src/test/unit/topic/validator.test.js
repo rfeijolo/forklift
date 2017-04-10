@@ -32,11 +32,15 @@ test('should return false when topic has no tags', (assert) => {
 });
 test('should return false when topic has no name', (assert) => {
   const topicWithoutOwnerId = fixtures.createAnyTopic();
+  const expectedErrors = [
+    'should have required property \'ownerId\''
+  ];
   delete topicWithoutOwnerId.ownerId;
 
   const result = validator.isValid(topicWithoutOwnerId);
 
   assert.equal(result.isValid, false);
+  assert.deepEqual(result.errors, expectedErrors);
   assert.end();
 });
 

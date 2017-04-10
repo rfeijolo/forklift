@@ -1,3 +1,5 @@
+const NEWLINE = '\n';
+
 module.exports = {
   success: success,
   genericError: genericError,
@@ -13,18 +15,13 @@ function success(item) {
 }
 
 function genericError() {
-  const errorResponse = {
-    statusCode: 500,
-    message: 'An unexpected error has ocurred.'
-  };
-  return JSON.stringify(errorResponse);
+  const errorMessage = '[500] An unexpected error has ocurred.';
+  return new Error(JSON.stringify(errorMessage));
 }
 
 function badRequest(errors) {
-  const badRequestResponse = {
-    statusCode: 400,
-    body: [].concat(errors)
-  };
-  return badRequestResponse;
+  const badRequestMessage = '[400] An error ocurred while processing your request';
+  const errorMessage = [badRequestMessage].concat(errors).join(NEWLINE);
+  return new Error(JSON.stringify(errorMessage));
 }
 
