@@ -44,6 +44,16 @@ test('should return false when topic has no name', (assert) => {
   assert.end();
 });
 
+test('should return false when ownerId is undefined', (assert) => {
+  const topicWithUndefinedOwner = fixtures.createAnyTopic();
+  topicWithUndefinedOwner.ownerId = undefined;
+
+  const result = validator.isValid(topicWithUndefinedOwner);
+
+  assert.equal(result.isValid, false);
+  assert.end();
+});
+
 test('should return false when topic has extra properties', (assert) => {
   const topicWithExtraProperties = fixtures.createAnyTopic();
   topicWithExtraProperties.extraProperty = 'extraProperty';
