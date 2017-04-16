@@ -1,5 +1,5 @@
 const test = require('tape');
-const responseFactory = require('../../responseFactory');
+const responseFactory = require('../../response-factory');
 
 test('should create sucess response', (assert) => {
   const anyItem = {};

@@ -1,5 +1,5 @@
 const database = require('../database');
-const responseFactory = require('../responseFactory');
+const responseFactory = require('../response-factory');
 
 module.exports = createMessage;
 

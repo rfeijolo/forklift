@@ -3,7 +3,7 @@ const MessageFixture = require('../../message-builder');
 const test = require('tape');
 const database = require('../../../database');
 const sinon = require('sinon');
-const responseFactory = require('../../../responseFactory');
+const responseFactory = require('../../../response-factory');
 
 test('createMessage should return Ok', (assert) => {
   const anyMessage = new MessageFixture().build();

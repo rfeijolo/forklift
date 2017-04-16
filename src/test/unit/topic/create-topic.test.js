@@ -3,7 +3,7 @@ const fixtures = require('../../fixtures');
 const sinon = require('sinon');
 const database = require('../../../database');
 const validator = require('../../../topic/validator');
-const responseFactory = require('../../../responseFactory');
+const responseFactory = require('../../../response-factory');
 
 const createTopic = require('../../../topic/create-topic');
 test('createTopic should return Ok', (assert) => {
