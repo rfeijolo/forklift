@@ -15,13 +15,21 @@ function success(item) {
 }
 
 function genericError() {
-  const errorMessage = '[500] An unexpected error has ocurred.';
-  return new Error(JSON.stringify(errorMessage));
+  const errorMessage = 'An unexpected error has ocurred.';
+  const response = {
+    statusCode: 500,
+    body: JSON.stringify({ message: errorMessage })
+  };
+  return response;
 }
 
 function badRequest(errors) {
-  const badRequestMessage = '[400] An error ocurred while processing your request';
+  const badRequestMessage = 'An error ocurred while processing your request';
   const errorMessage = [badRequestMessage].concat(errors).join(NEWLINE);
-  return new Error(JSON.stringify(errorMessage));
+  const response = {
+    statusCode: 400,
+    body: JSON.stringify({ message: errorMessage })
+  };
+  return response;
 }
 

@@ -14,24 +14,24 @@ test('should create sucess response', (assert) => {
 });
 
 test('should create generic error response', (assert) => {
-  const expectedErrorMessage = 'An unexpected error has ocurred.';
+  const expectedBody = '{"message":"An unexpected error has ocurred."}';
   const internalServerErrorStatusCode = 500;
 
   const response = responseFactory.genericError();
 
-  const error = JSON.parse(response);
-  assert.equal(error.statusCode, internalServerErrorStatusCode);
-  assert.equal(error.message, expectedErrorMessage);
+  assert.equal(response.statusCode, internalServerErrorStatusCode);
+  assert.equal(response.body, expectedBody);
   assert.end();
 });
 
 test('should create bad request response', (assert) => {
-  const expectedErrors = ['Any error message'];
+  const errorMessage = 'Any error message';
+  const expectedBody = `{"message":"An error ocurred while processing your request\\n${errorMessage}"}`;
   const badRequestStatusCode = 400;
 
-  const response = responseFactory.badRequest(expectedErrors);
+  const response = responseFactory.badRequest([errorMessage]);
 
   assert.equal(response.statusCode, badRequestStatusCode);
-  assert.deepEqual(response.body, expectedErrors);
+  assert.deepEqual(response.body, expectedBody);
   assert.end();
 });

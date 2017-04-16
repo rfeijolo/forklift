@@ -3,42 +3,45 @@ const MessageFixture = require('../../message-builder');
 const test = require('tape');
 const database = require('../../../database');
 const sinon = require('sinon');
+const responseFactory = require('../../../responseFactory');
 
 test('createMessage should return Ok', (assert) => {
   const anyMessage = new MessageFixture().build();
+  const anyResponse = { statusCode: 200 };
   const createMessageStub = sinon.stub(database, 'createMessage');
+  const createTopicStub = sinon.stub(responseFactory, 'success');
+  createTopicStub.returns(anyResponse);
   createMessageStub.yields(null, anyMessage);
 
   createMessage(anyMessage, isResponseOk);
 
   function isResponseOk(error, response){
+    createTopicStub.restore();
     createMessageStub.restore();
-    const okStatusCode = 200;
-    const serializedBody = JSON.stringify(anyMessage);
 
-    assert.equal(error, null);
-    assert.equal(response.statusCode, okStatusCode);
-    assert.equal(response.body, serializedBody);
+    assert.notOk(error);
+    assert.equal(response, anyResponse);
     assert.end();
   }
 });
 
 test('createMessage should return Internal Server Error', (assert => {
   const anyMessage = new MessageFixture().build();
+  const anyResponse = { statusCode: 500 };
   const expectedErrorMessage = 'An unexpected error has ocurred.';
+  const genericErrorStub = sinon.stub(responseFactory, 'genericError');
   const createMessageStub = sinon.stub(database, 'createMessage');
   createMessageStub.yields(new Error(expectedErrorMessage));
+  genericErrorStub.returns(anyResponse);
 
   createMessage(anyMessage, isResponseInternalServerError);
 
-  function isResponseInternalServerError(serializedError, response) {
+  function isResponseInternalServerError(error, response) {
     createMessageStub.restore();
-    const internalServerErrorStatusCode = 500;
-    const error = JSON.parse(serializedError);
+    genericErrorStub.restore();
 
-    assert.equal(error.statusCode, internalServerErrorStatusCode);
-    assert.equal(error.message, expectedErrorMessage);
-    assert.equal(response, undefined);
+    assert.notOk(error);
+    assert.equal(response, anyResponse);
     assert.end();
   }
 }));

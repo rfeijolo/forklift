@@ -7,13 +7,13 @@ module.exports = createTopic;
 function createTopic(topic, done) {
   const validationResult = validator.isValid(topic);
   if(!validationResult.isValid) {
-    done(responseFactory.badRequest(validationResult.errors));
+    done(null, responseFactory.badRequest(validationResult.errors));
     return;
   }
   database.createTopic(topic, handleTopicCreation);
 
   function handleTopicCreation(error, createdTopic) {
-    if(error) done(responseFactory.genericError(error));
+    if(error) done(null, responseFactory.genericError(error));
     else done(null, responseFactory.success(createdTopic));
   }
 }
