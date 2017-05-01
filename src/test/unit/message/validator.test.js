@@ -1,8 +1,9 @@
 const test = require('tape');
+const fixtures = require('../../fixtures');
 const validator = require('../../../message/validator');
 const MessageBuilder = require('../../message-builder');
 
-test('should return true when message is valid', (assert) => {
+test('isValid should return true when message is valid', (assert) => {
   const messageBuilder = new MessageBuilder();
   const anyMessage = messageBuilder.withTopicId('anyTopicId').build();
 
@@ -12,7 +13,7 @@ test('should return true when message is valid', (assert) => {
   assert.end();
 });
 
-test('should return false when message has no title', (assert) => {
+test('isValid should return false when message has no title', (assert) => {
   const messageBuilder = new MessageBuilder();
   const messageWithoutTitle = messageBuilder.build();
   delete messageWithoutTitle.title;
@@ -23,7 +24,7 @@ test('should return false when message has no title', (assert) => {
   assert.end();
 });
 
-test('should return false when message has no text', (assert) => {
+test('isValid should return false when message has no text', (assert) => {
   const messageBuilder = new MessageBuilder();
   const messageWithoutText = messageBuilder.build();
   delete messageWithoutText.text;
@@ -34,7 +35,7 @@ test('should return false when message has no text', (assert) => {
   assert.end();
 });
 
-test('should return false when message has no topicId', (assert) => {
+test('isValid should return false when message has no topicId', (assert) => {
   const messageBuilder = new MessageBuilder();
   const messageWithoutTopicId = messageBuilder.withTopicId(undefined).build();
   delete messageWithoutTopicId.topicId;
@@ -45,7 +46,7 @@ test('should return false when message has no topicId', (assert) => {
   assert.end();
 });
 
-test('should return false when message has no ownerId', (assert) => {
+test('isValid should return false when message has no ownerId', (assert) => {
   const messageBuilder = new MessageBuilder();
   const messageWithoutOwnerId = messageBuilder.build();
   delete messageWithoutOwnerId.ownerId;
@@ -56,7 +57,7 @@ test('should return false when message has no ownerId', (assert) => {
   assert.end();
 });
 
-test('should return false when message has extra properties', (assert) => {
+test('isValid should return false when message has extra properties', (assert) => {
   const messageBuilder = new MessageBuilder();
   const messageWithExtraProperties = messageBuilder.build();
   messageWithExtraProperties.extraProperty = 'extraProperty';
@@ -66,3 +67,30 @@ test('should return false when message has extra properties', (assert) => {
   assert.notOk(result.isValid);
   assert.end();
 });
+
+test('isAuthorized should return true when message and topic have the same owner', (assert) => {
+  const anyTopic = fixtures.createAnyTopic();
+  const messageBuilder = new MessageBuilder();
+  const anyMessage = messageBuilder.build();
+
+  anyMessage.ownerId = anyTopic.ownerId;
+
+  const result = validator.isAuthorized(anyTopic, anyMessage);
+
+  assert.ok(result);
+  assert.end();
+});
+
+test('isAuthorized should return false when message and topic have different owners', (assert) => {
+  const anyTopic = fixtures.createAnyTopic();
+  const messageBuilder = new MessageBuilder();
+  const anyMessage = messageBuilder.build();
+
+  anyMessage.ownerId = 'otherOwnerId';
+
+  const result = validator.isAuthorized(anyTopic, anyMessage);
+
+  assert.notOk(result);
+  assert.end();
+});
+
