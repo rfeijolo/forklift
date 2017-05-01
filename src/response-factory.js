@@ -3,7 +3,8 @@ const NEWLINE = '\n';
 module.exports = {
   success: success,
   genericError: genericError,
-  badRequest: badRequest
+  badRequest: badRequest,
+  forbidden: forbidden
 };
 
 function success(item) {
@@ -28,6 +29,15 @@ function badRequest(errors) {
   const errorMessage = [badRequestMessage].concat(errors).join(NEWLINE);
   const response = {
     statusCode: 400,
+    body: JSON.stringify({ message: errorMessage })
+  };
+  return response;
+}
+
+function forbidden() {
+  const errorMessage = 'You are not authorized to perform this action.';
+  const response = {
+    statusCode: 403,
     body: JSON.stringify({ message: errorMessage })
   };
   return response;

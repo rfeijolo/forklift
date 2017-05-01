@@ -35,3 +35,14 @@ test('should create bad request response', (assert) => {
   assert.deepEqual(response.body, expectedBody);
   assert.end();
 });
+
+test('should create forbidden response', (assert) => {
+  const expectedBody = '{"message":"You are not authorized to perform this action."}';
+  const forbiddenStatusCode = 403;
+
+  const response = responseFactory.forbidden();
+
+  assert.equal(response.statusCode, forbiddenStatusCode);
+  assert.equal(response.body, expectedBody);
+  assert.end();
+});
