@@ -10,7 +10,8 @@ const MESSAGES_TABLE = 'messages';
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 module.exports = {
   createTopic: createItem(TOPICS_TABLE),
-  createMessage: createItem(MESSAGES_TABLE)
+  createMessage: createItem(MESSAGES_TABLE),
+  getTopic: getTopic
 };
 
 function createItem(table) {
@@ -31,5 +32,19 @@ function createItem(table) {
       else done(null, databaseItem);
     });
   };
+}
+
+function getTopic(topicId, done) {
+  const params = {
+    TableName: TOPICS_TABLE,
+    Key: {
+      'id': topicId
+    }
+  };
+
+  dynamoDb.get(params, (error, data) => {
+    if(error) done(error);
+    else done(null, data);
+  });
 }
 
