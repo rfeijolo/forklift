@@ -1,8 +1,11 @@
+const messageSchema = require('./schema');
+const validator = require('../validator');
+
 module.exports = {
-  isMessageValid: isMessageValid
+  isValid: isValid
 };
 
-function isMessageValid() {
-  return true;
+function isValid(message) {
+  return validator(messageSchema, message);
 }
 

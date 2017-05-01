@@ -1,0 +1,10 @@
+{
+  "required": ["title", "text", "topicId", "ownerId"],
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string" },
+    "text": { "type": "string" },
+    "topicId": { "type": "string" },
+    "ownerId": { "type": "string" }
+  }
+}

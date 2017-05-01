@@ -4,6 +4,8 @@ const responseFactory = require('../response-factory');
 module.exports = createMessage;
 
 function createMessage(message, done) {
+  //validateMessage
+  //hasSameOwner
   database.createMessage(message, handleMessageCreation);
 
   function handleMessageCreation(error, createdMessage) {
