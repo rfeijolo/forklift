@@ -27,7 +27,7 @@
     "eslint": "^3.15.0",
     "faucet": "0.0.1",
     "istanbul": "^0.4.5",
-    "serverless": "^1.8.0",
+    "serverless": "^1.12.1",
     "serverless-offline": "^3.13.0",
     "sinon": "^2.1.0",
     "supertest": "^3.0.0",

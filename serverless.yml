@@ -1,5 +1,5 @@
 service: forklift
-frameworkVersion: "=1.8.0"
+frameworkVersion: "=1.12.1"
 
 provider:
   name: aws
