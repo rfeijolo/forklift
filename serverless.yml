@@ -38,7 +38,7 @@ functions:
           method: post
           cors: true
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:651189268295:userpool/us-east-1_adJJylZfM
+            arn: "arn:aws:cognito-idp:${self:provider.region}:651189268295:userpool/us-east-1_adJJylZfM"
 
 resources:
   Resources:

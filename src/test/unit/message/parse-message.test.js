@@ -3,10 +3,12 @@ const parseMessage = require('../../../message/parse-message');
 
 test('should parse an apigateway event', (assert) => {
   const event = createMessageEvent();
+  const anyOwnerId = 'anyOwnerId';
   const expected = {
     title: 'Pokémon',
     text: 'A wild test appeared!',
-    topicId: 'anyTopicId'
+    topicId: 'anyTopicId',
+    ownerId: anyOwnerId
   };
 
   const result = parseMessage(event);
@@ -17,10 +19,12 @@ test('should parse an apigateway event', (assert) => {
 
 test('should filter over posted properties', (assert) => {
   const event = createMessageEvent();
+  const anyOwnerId = 'anyOwnerId';
   const expected = {
     title: 'Pokémon',
     text: 'A wild test appeared!',
-    topicId: 'anyTopicId'
+    topicId: 'anyTopicId',
+    ownerId: anyOwnerId
   };
 
   const result = parseMessage(event);
@@ -34,6 +38,13 @@ function createMessageEvent() {
     body: '{"title":"Pokémon","text":"A wild test appeared!"}',
     pathParameters: {
       topicId: 'anyTopicId'
+    },
+    requestContext: {
+      authorizer: {
+        claims: {
+          sub: 'anyOwnerId'
+        }
+      }
     }
   };
 }

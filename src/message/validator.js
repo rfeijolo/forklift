@@ -11,7 +11,6 @@ function isValid(message) {
 }
 
 function isAuthorized(topic, message) {
-  return typeof message.ownerId !== 'undefined' &&
-    message.ownerId === topic.ownerId;
+  return message.ownerId === topic.ownerId;
 }
 

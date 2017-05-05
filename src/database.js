@@ -44,7 +44,7 @@ function getTopic(topicId, done) {
 
   dynamoDb.get(params, (error, data) => {
     if(error) done(error);
-    else done(null, data);
+    else done(null, data.Item);
   });
 }
 

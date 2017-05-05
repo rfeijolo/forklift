@@ -5,7 +5,8 @@ module.exports = function (event) {
   return {
     title: parsedBody.title,
     text: parsedBody.text,
-    topicId: event.pathParameters.topicId
+    topicId: event.pathParameters.topicId,
+    ownerId: event.requestContext.authorizer.claims.sub
   };
 };
 
