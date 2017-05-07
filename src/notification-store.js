@@ -11,7 +11,7 @@ module.exports = {
 
 function createTopic(topic, done) {
   const params = {
-    Name: topic.name
+    Name: `${topic.name}_${topic.ownerId}`
   };
 
   sns.createTopic(params, (error, data) => {

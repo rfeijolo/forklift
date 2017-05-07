@@ -19,6 +19,10 @@ provider:
         - dynamodb:GetRecords
         - dynamodb:DescribeStream
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+    - Effect: Allow
+      Action:
+        - sns:CreateTopic
+      Resource: "arn:aws:sns:us-east-1:*:*"
 
 functions:
   createMessage:
