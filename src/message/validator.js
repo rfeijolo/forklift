@@ -6,11 +6,14 @@ module.exports = {
   isAuthorized: isAuthorized
 };
 
-function isValid(message) {
-  return validator(messageSchema, message);
+function isValid(message, done) {
+  const result = validator(messageSchema, message);
+  if (!result.isValid) done(result.errors);
+  else done(null, message);
 }
 
-function isAuthorized(topic, message) {
-  return message.ownerId === topic.ownerId;
+function isAuthorized(topic, message, done) {
+  if (message.ownerId !== topic.ownerId) done(new Error('Unauthorized'));
+  else done(null, message);
 }
 

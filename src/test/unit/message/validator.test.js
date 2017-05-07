@@ -7,10 +7,13 @@ test('isValid should return true when message is valid', (assert) => {
   const messageBuilder = new MessageBuilder();
   const anyMessage = messageBuilder.withTopicId('anyTopicId').build();
 
-  const result = validator.isValid(anyMessage);
+  validator.isValid(anyMessage, assertIsValid);
 
-  assert.ok(result.isValid);
-  assert.end();
+  function assertIsValid(error, validatedMessage) {
+    assert.notOk(error);
+    assert.deepEqual(validatedMessage, anyMessage);
+    assert.end();
+  }
 });
 
 test('isValid should return false when message has no title', (assert) => {
@@ -18,10 +21,13 @@ test('isValid should return false when message has no title', (assert) => {
   const messageWithoutTitle = messageBuilder.build();
   delete messageWithoutTitle.title;
 
-  const result = validator.isValid(messageWithoutTitle);
+  validator.isValid(messageWithoutTitle, assertIsNotValid);
 
-  assert.notOk(result.isValid);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.ok(error);
+    assert.notOk(validatedMessage);
+    assert.end();
+  }
 });
 
 test('isValid should return false when message has no text', (assert) => {
@@ -29,10 +35,13 @@ test('isValid should return false when message has no text', (assert) => {
   const messageWithoutText = messageBuilder.build();
   delete messageWithoutText.text;
 
-  const result = validator.isValid(messageWithoutText);
+  validator.isValid(messageWithoutText, assertIsNotValid);
 
-  assert.notOk(result.isValid);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.ok(error);
+    assert.notOk(validatedMessage);
+    assert.end();
+  }
 });
 
 test('isValid should return false when message has no topicId', (assert) => {
@@ -40,10 +49,13 @@ test('isValid should return false when message has no topicId', (assert) => {
   const messageWithoutTopicId = messageBuilder.withTopicId(undefined).build();
   delete messageWithoutTopicId.topicId;
 
-  const result = validator.isValid(messageWithoutTopicId);
+  validator.isValid(messageWithoutTopicId, assertIsNotValid);
 
-  assert.notOk(result.isValid);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.ok(error);
+    assert.notOk(validatedMessage);
+    assert.end();
+  }
 });
 
 test('isValid should return false when message has no ownerId', (assert) => {
@@ -51,10 +63,13 @@ test('isValid should return false when message has no ownerId', (assert) => {
   const messageWithoutOwnerId = messageBuilder.build();
   delete messageWithoutOwnerId.ownerId;
 
-  const result = validator.isValid(messageWithoutOwnerId);
+  validator.isValid(messageWithoutOwnerId, assertIsNotValid);
 
-  assert.notOk(result.isValid);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.ok(error);
+    assert.notOk(validatedMessage);
+    assert.end();
+  }
 });
 
 test('isValid should return false when message has extra properties', (assert) => {
@@ -62,10 +77,13 @@ test('isValid should return false when message has extra properties', (assert) =
   const messageWithExtraProperties = messageBuilder.build();
   messageWithExtraProperties.extraProperty = 'extraProperty';
 
-  const result = validator.isValid(messageWithExtraProperties);
+  validator.isValid(messageWithExtraProperties, assertIsNotValid);
 
-  assert.notOk(result.isValid);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.ok(error);
+    assert.notOk(validatedMessage);
+    assert.end();
+  }
 });
 
 test('isAuthorized should return true when message and topic have the same owner', (assert) => {
@@ -75,10 +93,13 @@ test('isAuthorized should return true when message and topic have the same owner
 
   anyMessage.ownerId = anyTopic.ownerId;
 
-  const result = validator.isAuthorized(anyTopic, anyMessage);
+  validator.isAuthorized(anyTopic, anyMessage, assertIsNotValid);
 
-  assert.ok(result);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.notOk(error);
+    assert.deepEqual(validatedMessage, anyMessage);
+    assert.end();
+  }
 });
 
 test('isAuthorized should return false when message and topic have different owners', (assert) => {
@@ -88,9 +109,12 @@ test('isAuthorized should return false when message and topic have different own
 
   anyMessage.ownerId = 'otherOwnerId';
 
-  const result = validator.isAuthorized(anyTopic, anyMessage);
+  validator.isAuthorized(anyTopic, anyMessage, assertIsNotValid);
 
-  assert.notOk(result);
-  assert.end();
+  function assertIsNotValid(error, validatedMessage) {
+    assert.ok(error);
+    assert.notOk(validatedMessage);
+    assert.end();
+  }
 });
 
