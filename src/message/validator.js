@@ -7,13 +7,15 @@ module.exports = {
 };
 
 function isValid(message, done) {
-  const result = validator(messageSchema, message);
-  if (!result.isValid) done(result.errors);
-  else done(null, message);
+  validator.isValid(messageSchema, message, done);
 }
 
 function isAuthorized(topic, message, done) {
-  if (message.ownerId !== topic.ownerId) done(new Error('Unauthorized'));
+  if (hasSameOwner(message, topic)) done(new Error('Unauthorized'));
   else done(null, message);
+}
+
+function hasSameOwner(message, topic) {
+  return message.ownerId !== topic.ownerId;
 }
 

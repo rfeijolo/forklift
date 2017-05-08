@@ -1,11 +1,12 @@
 const Ajv = require('ajv');
 const ajv = new Ajv();
 
-module.exports = isValid;
+module.exports = {
+  isValid: isValid
+};
 
-function isValid(schema, item) {
-  return {
-    isValid: ajv.validate(schema, item),
-    errors: ajv.errors ? ajv.errors.map((error) => error.message) : undefined
-  };
+function isValid(schema, item, done) {
+  const isValid = ajv.validate(schema, item);
+  if (!isValid) done(ajv.errors.map((error) => error.message));
+  else done(null, item);
 }

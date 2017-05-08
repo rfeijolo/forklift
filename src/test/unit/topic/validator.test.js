@@ -5,62 +5,80 @@ const fixtures = require('../../fixtures');
 test('should return true when topic is valid', (assert) => {
   const anyTopic = fixtures.createAnyTopic();
 
-  const result = validator.isValid(anyTopic);
+  validator.isValid(anyTopic, assertIsValid);
 
-  assert.equal(result.isValid, true);
-  assert.end();
+  function assertIsValid(error, topic) {
+    assert.notOk(error);
+    assert.deepEqual(topic, anyTopic);
+    assert.end();
+  }
 });
 
 test('should return false when topic has no name', (assert) => {
   const topicWithoutName = fixtures.createAnyTopic();
   delete topicWithoutName.name;
 
-  const result = validator.isValid(topicWithoutName);
+  validator.isValid(topicWithoutName, assertIsNotValid);
 
-  assert.equal(result.isValid, false);
-  assert.end();
+  function assertIsNotValid(error, validatedTopic) {
+    assert.ok(error);
+    assert.notOk(validatedTopic);
+    assert.end();
+  }
 });
 
 test('should return false when topic has no tags', (assert) => {
   const topicWithoutTags = fixtures.createAnyTopic();
   delete topicWithoutTags.tags;
 
-  const result = validator.isValid(topicWithoutTags);
+  validator.isValid(topicWithoutTags, assertIsNotValid);
 
-  assert.equal(result.isValid, false);
-  assert.end();
+  function assertIsNotValid(error, validatedTopic) {
+    assert.ok(error);
+    assert.notOk(validatedTopic);
+    assert.end();
+  }
 });
-test('should return false when topic has no name', (assert) => {
+
+test('should return false when topic has no owner', (assert) => {
   const topicWithoutOwnerId = fixtures.createAnyTopic();
   const expectedErrors = [
     'should have required property \'ownerId\''
   ];
   delete topicWithoutOwnerId.ownerId;
 
-  const result = validator.isValid(topicWithoutOwnerId);
+  validator.isValid(topicWithoutOwnerId, assertIsNotValid);
 
-  assert.equal(result.isValid, false);
-  assert.deepEqual(result.errors, expectedErrors);
-  assert.end();
+  function assertIsNotValid(error, validatedTopic) {
+    assert.deepEqual(error, expectedErrors);
+    assert.notOk(validatedTopic);
+    assert.end();
+  }
 });
 
 test('should return false when ownerId is undefined', (assert) => {
   const topicWithUndefinedOwner = fixtures.createAnyTopic();
   topicWithUndefinedOwner.ownerId = undefined;
 
-  const result = validator.isValid(topicWithUndefinedOwner);
+  validator.isValid(topicWithUndefinedOwner, assertIsNotValid);
 
-  assert.equal(result.isValid, false);
-  assert.end();
+  function assertIsNotValid(error, validatedTopic) {
+    assert.ok(error);
+    assert.notOk(validatedTopic);
+    assert.end();
+  }
 });
 
 test('should return false when topic has extra properties', (assert) => {
   const topicWithExtraProperties = fixtures.createAnyTopic();
   topicWithExtraProperties.extraProperty = 'extraProperty';
 
-  const result = validator.isValid(topicWithExtraProperties);
+  validator.isValid(topicWithExtraProperties, assertIsNotValid);
 
-  assert.equal(result.isValid, false);
-  assert.end();
+  function assertIsNotValid(error, validatedTopic) {
+    assert.ok(error);
+    assert.notOk(validatedTopic);
+    assert.end();
+  }
 });
 

@@ -6,12 +6,12 @@ const notificationStore = require('../notification-store');
 module.exports = createTopic;
 
 function createTopic(topic, done) {
-  const validationResult = validator.isValid(topic);
-  if(!validationResult.isValid) {
-    done(null, responseFactory.badRequest(validationResult.errors));
-    return;
+  validator.isValid(topic, handleValidation);
+
+  function handleValidation(error, validatedTopic) {
+    if(error) done(null, responseFactory.badRequest(error));
+    else notificationStore.createTopic(validatedTopic, saveTopicInDatabase);
   }
-  notificationStore.createTopic(topic, saveTopicInDatabase);
 
   function saveTopicInDatabase(error, notificationStoreId) {
     if(error) done(null, responseFactory.genericError(error));

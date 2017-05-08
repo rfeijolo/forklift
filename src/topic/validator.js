@@ -5,7 +5,7 @@ module.exports = {
   isValid: isValid
 };
 
-function isValid(topic) {
-  return validator(topicSchema, topic);
+function isValid(topic, done) {
+  validator.isValid(topicSchema, topic, done);
 }
 

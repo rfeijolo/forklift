@@ -10,9 +10,11 @@ const createTopic = require('../../../topic/create-topic');
 test('createTopic should return Ok', (assert) => {
   const anyTopic = fixtures.createAnyTopic();
   const anyResponse = { statusCode: 200 };
+  const isValidStub = sinon.stub(validator, 'isValid');
   const successStub = sinon.stub(responseFactory, 'success');
   const createTopicStub = sinon.stub(notificationStore, 'createTopic');
   const saveInDatabaseStub = sinon.stub(database, 'createTopic');
+  isValidStub.yields(null, anyTopic);
   createTopicStub.yields(null, anyTopic.notificationStoreId);
   saveInDatabaseStub.yields(null, anyTopic);
   successStub.returns(anyResponse);
@@ -23,6 +25,7 @@ test('createTopic should return Ok', (assert) => {
     createTopicStub.restore();
     successStub.restore();
     saveInDatabaseStub.restore();
+    isValidStub.restore();
 
     assert.notOk(error);
     assert.equal(response, anyResponse);
@@ -30,13 +33,39 @@ test('createTopic should return Ok', (assert) => {
   }
 });
 
+test('createTopic should return Internal Server Error when notificationStore throws an error', (assert => {
+  const anyTopic = fixtures.createAnyTopic();
+  const anyResponse = { statusCode: 500 };
+  const genericErrorStub = sinon.stub(responseFactory, 'genericError');
+  const isValidStub = sinon.stub(validator, 'isValid');
+  const createTopicStub = sinon.stub(notificationStore, 'createTopic');
+  const expectedError = new Error('An unexpected error has ocurred.');
+  isValidStub.yields(null, anyTopic);
+  createTopicStub.yields(expectedError);
+  genericErrorStub.returns(anyResponse);
+
+  createTopic(anyTopic, assertGenericErrorWasCalled);
+
+  function assertGenericErrorWasCalled(error, response) {
+    createTopicStub.restore();
+    genericErrorStub.restore();
+    isValidStub.restore();
+
+    assert.notOk(error);
+    assert.equal(response, anyResponse);
+    assert.end();
+  }
+}));
+
 test('createTopic should return Internal Server Error when database throws an error', (assert => {
   const anyTopic = fixtures.createAnyTopic();
   const anyResponse = { statusCode: 500 };
   const genericErrorStub = sinon.stub(responseFactory, 'genericError');
+  const isValidStub = sinon.stub(validator, 'isValid');
   const createTopicStub = sinon.stub(notificationStore, 'createTopic');
   const saveInDatabaseStub = sinon.stub(database, 'createTopic');
   const expectedError = new Error('An unexpected error has ocurred.');
+  isValidStub.yields(null, anyTopic);
   createTopicStub.yields(null, anyTopic.notificationStoreId);
   saveInDatabaseStub.yields(expectedError);
   genericErrorStub.returns(anyResponse);
@@ -47,6 +76,8 @@ test('createTopic should return Internal Server Error when database throws an er
     createTopicStub.restore();
     genericErrorStub.restore();
     saveInDatabaseStub.restore();
+    isValidStub.restore();
+
     assert.notOk(error);
     assert.equal(response, anyResponse);
     assert.end();
@@ -58,10 +89,7 @@ test('createTopic should return a Bad Request when validation has errors', (asse
   const expectedErrors = ['Any error'];
   const anyResponse = { statusCode: 400 };
   const badRequestStub = sinon.stub(responseFactory, 'badRequest');
-  const validatorStub = sinon.stub(validator, 'isValid').returns({
-    isValid: false,
-    errors: expectedErrors
-  });
+  const validatorStub = sinon.stub(validator, 'isValid').yields(expectedErrors);
   badRequestStub.returns(anyResponse);
 
   createTopic(anyTopic, assertBadRequestWasCalled);
@@ -69,6 +97,7 @@ test('createTopic should return a Bad Request when validation has errors', (asse
   function assertBadRequestWasCalled(error, response) {
     badRequestStub.restore();
     validatorStub.restore();
+
     assert.notOk(error);
     assert.equal(response, anyResponse);
     assert.end();
