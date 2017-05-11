@@ -22,7 +22,7 @@ function createTopic(topic, done) {
   }
 
   function handleTopicCreation(error, createdTopic) {
-    if(error) done(null, responseFactory.genericError());
+    if(error) done(null, responseFactory.genericError(error));
     else done(null, responseFactory.success(createdTopic));
   }
 }

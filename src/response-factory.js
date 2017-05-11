@@ -1,3 +1,4 @@
+const logger = require('./logger');
 const NEWLINE = '\n';
 
 module.exports = {
@@ -15,7 +16,8 @@ function success(item) {
   return response;
 }
 
-function genericError() {
+function genericError(error) {
+  logger.error(error);
   const errorMessage = 'An unexpected error has ocurred.';
   const response = {
     statusCode: 500,
