@@ -22,11 +22,12 @@ provider:
     - Effect: Allow
       Action:
         - sns:CreateTopic
+        - sns:Publish
       Resource: "arn:aws:sns:us-east-1:*:*"
 
 functions:
   createMessage:
-    handler: src/message/handler.createMessage
+    handler: src/message/handler.create
     events:
       - http:
           path: topics/{topicId}/messages
@@ -43,6 +44,10 @@ functions:
           cors: true
           authorizer:
             arn: "arn:aws:cognito-idp:${self:provider.region}:651189268295:userpool/us-east-1_adJJylZfM"
+  publishMessage:
+    handler: src/message/handler.publish
+    events:
+      - stream: arn:aws:dynamodb:us-east-1:651189268295:table/messages/stream/2017-03-26T22:58:37.106
 
 resources:
   Resources:

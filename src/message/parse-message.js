@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (event) {
+module.exports = (event) => {
   const parsedBody = JSON.parse(event.body);
   return {
     title: parsedBody.title,
