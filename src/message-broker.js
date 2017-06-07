@@ -1,5 +1,5 @@
 'use strict';
-
+const logger = require('./logger');
 const AWS = require('aws-sdk');
 AWS.config.update({
   region: 'us-east-1'
@@ -16,15 +16,8 @@ function publish(notificationStoreId, message, done) {
     TopicArn: notificationStoreId
   };
   sns.publish(params, function(error, data) {
-    if (error) {
-      console.log(error);
-      done(error);
-      return;
-    }
-    else {
-      console.log(data);
-      done(null, data);
-    }
+    if (error) logger.error(JSON.stringify(error));
+    else done(null, data);
   });
 }
 

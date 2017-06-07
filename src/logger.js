@@ -3,5 +3,5 @@ module.exports = {
 };
 
 function error(errorObject) {
-  console.error(JSON.stringify(errorObject));
+  console.error(JSON.stringify(errorObject)); //eslint-disable-line no-console
 }

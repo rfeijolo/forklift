@@ -6,7 +6,7 @@ module.exports = publishMessages;
 
 function publishMessages(messages, done) {
   const publicationPromises = messages.map(createPublicationPromise);
-  Promise.all(publicationPromises).then(() => done(null));
+  Promise.all(publicationPromises).then(() => done());
 }
 
 function createPublicationPromise(message) {
@@ -16,3 +16,4 @@ function createPublicationPromise(message) {
     });
   });
 }
+
